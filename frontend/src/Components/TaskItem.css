@@ -1,0 +1,54 @@
+.task-card {
+  border: none;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 16px;
+  background-color: var(--card-bg);
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: transform 0.2s;
+}
+
+.task-card:hover {
+  transform: translateY(-2px);
+}
+
+.task-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.task-meta {
+  font-size: 13px;
+  color: var(--text-sub);
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+/* Priority Pills */
+.priority-tag {
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.High { background: #fee2e2; color: #ef4444; }
+.Medium { background: #fef3c7; color: #d97706; }
+.Low { background: #dcfce7; color: #16a34a; }
+
+.task-actions {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.task-actions button {
+  font-size: 12px;
+  font-weight: 600;
+}
