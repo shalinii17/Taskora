@@ -12,7 +12,11 @@ const authRoutes = require("./routes/authRoutes");
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: "https://taskora-neon.vercel.app/",
+  credentials: true
+}));
+
 app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/tasks", tasksRoutes);
