@@ -12,16 +12,16 @@ const authRoutes = require("./routes/authRoutes");
 
 const app = express();
 
-
-
-app.use(cors({
-  origin: [
-    "http://localhost:3000",
-    "http://localhost:3001",
-    "https://taskora-git-main-shalinii17s-projects.vercel.app"
-  ],
-  credentials: true
-}));
+app.use(
+  cors({
+    origin: [
+      "https://taskora-neon.vercel.app",   // NEW frontend
+      "http://localhost:5173"              // local dev
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true
+  })
+);
 
 app.use(express.json());
 app.use("/api/auth", authRoutes);
