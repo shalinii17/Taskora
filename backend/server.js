@@ -3,42 +3,33 @@ const cors = require("cors");
 require("dotenv").config();
 
 const tasksRoutes = require("./routes/tasksRoutes");
-const pool = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
-
-
-
-
+const pool = require("./config/db");
 
 const app = express();
 
-app.use(
-  cors({
-    origin: [
-      "https://taskora-neon.vercel.app",   // NEW frontend
-      "http://localhost:5173"              // local dev
-    ],
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true
-  })
-);
+app.use(cors({
+  origin: "https://taskora-neon.vercel.app",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
+
+app.options("*", cors());
 
 app.use(express.json());
+
 app.use("/api/auth", authRoutes);
 app.use("/api/tasks", tasksRoutes);
-
 
 app.get("/", (req, res) => {
   res.send("Taskora API is running...");
 });
 
+pool.on("error", (err) => {
+  console.error("Unexpected DB error:", err);
+});
+
 const PORT = process.env.PORT || 5000;
-
-
-pool.connect()
-  .then(() => console.log("PostgreSQL connected successfully"))
-  .catch(err => console.error("Database connection error:", err));
-
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
