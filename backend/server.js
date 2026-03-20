@@ -8,11 +8,7 @@ const pool = require("./config/db");
 
 const app = express();
 
-app.use(cors({
-  origin: "https://taskora-neon.vercel.app",
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true
-}));
+app.use(cors());
 
 app.use(express.json());
 
