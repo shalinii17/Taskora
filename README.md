@@ -1,5 +1,3 @@
-# Live demo : https://taskora-mhsm1hr7f-shalinii17s-projects.vercel.app
-
 # About the Project
 
 Taskora is a full-stack task management web application that allows users to securely create, manage, and track their daily tasks.
@@ -7,20 +5,14 @@ It includes user authentication and supports full CRUD operations (Create, Read,
 status tracking.
 
 # Tech Stack
-Frontend:
-- React.js
+- Frontend: React
+- Backend: Node.js, Express
+- Database: PostgreSQL (Supabase)
+- Authentication: JWT, bcrypt
 
-Backend:
-- Node.js
-- Express.js
+# Features
+- User signup and login
+- Secure password hashing
+- JWT-based authentication
+- REST API integration
 
-Database:
-- PostgreSQL
-
-Authentication:
-- JSON Web Tokens (JWT)
-
-Deployment:
-- Vercel (Frontend)
-- Render (Backend)
-- Supabase (Database)
