@@ -8,8 +8,17 @@ function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSignup = async () => {
+    setError("");
+
+    if (!name || !email || !password) {
+      setError("All fields are required.");
+      return;
+    }
+
+    setLoading(true);
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/signup`, {
         method: "POST",
@@ -17,15 +26,24 @@ function SignupPage() {
         body: JSON.stringify({ name, email, password })
       });
 
-      const data = await response.json();
+      let data;
+      try {
+        data = await response.json();
+      } catch {
+        setError("Unexpected server response. Please try again.");
+        return;
+      }
+
       if (!response.ok) {
-        setError(data.message);
+        setError(data.message || "Signup failed. Please try again.");
         return;
       }
 
       navigate("/login");
     } catch (err) {
-      setError("Something went wrong. Please try again.");
+      setError("Could not connect to server. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -37,7 +55,7 @@ function SignupPage() {
           <p style={styles.subtitle}>Join us and start organizing your tasks.</p>
         </header>
 
-        {error && <div style={styles.errorBox}>{error}</div>}
+        {error && <div style={styles.errorBox}>⚠️ {error}</div>}
 
         <div style={styles.form}>
           <div style={styles.inputGroup}>
@@ -73,23 +91,26 @@ function SignupPage() {
             />
           </div>
 
-          <button style={styles.primaryButton} onClick={handleSignup}>
-            Create Account
+          <button
+            style={{ ...styles.primaryButton, opacity: loading ? 0.7 : 1 }}
+            onClick={handleSignup}
+            disabled={loading}
+          >
+            {loading ? "Creating Account..." : "Create Account"}
           </button>
         </div>
 
         <footer style={styles.footer}>
-  <span>Already have an account?</span>
-  <button style={styles.linkButton} onClick={() => navigate("/login")}>
-    Login here
-  </button>
-</footer>
+          <span>Already have an account?</span>
+          <button style={styles.linkButton} onClick={() => navigate("/login")}>
+            Login here
+          </button>
+        </footer>
       </div>
     </div>
   );
 }
 
-// Keeping styles identical for brand consistency
 const styles = {
   container: {
     display: "flex",
@@ -98,7 +119,7 @@ const styles = {
     minHeight: "100vh",
     background: "linear-gradient(135deg, #0f172a 0%, #1e293b 100%)",
     fontFamily: "'Inter', sans-serif",
-    padding: "20px", // Padding for mobile responsiveness
+    padding: "20px",
   },
   card: {
     width: "100%",
@@ -165,13 +186,14 @@ const styles = {
   primaryButton: {
     marginTop: "10px",
     padding: "14px",
-    backgroundColor: "#38bdf8", 
+    backgroundColor: "#38bdf8",
     color: "#0f172a",
     border: "none",
     borderRadius: "10px",
     fontSize: "15px",
     fontWeight: "700",
     cursor: "pointer",
+    transition: "opacity 0.2s",
   },
   footer: {
     marginTop: "32px",
